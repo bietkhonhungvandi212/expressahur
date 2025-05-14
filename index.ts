@@ -1,23 +1,20 @@
-import { Server } from "node:http";
+import { createServer, IncomingMessage, ServerResponse } from "node:http";
 
-const handler = (req: Request): Response => {
-  console.log("🚀 ~ handler ~ req:", req)
-  if (req.url.endsWith("/")) {
-    return new Response(JSON.stringify({ message: "Hello World!" }), {
-      headers: { "Content-Type": "application/json" },
-    });
-  }
+const server = createServer((req: IncomingMessage, res: ServerResponse) => {
+  console.log("🚀 ~ handler ~ req:", req.url);
   
-  return new Response(JSON.stringify({ error: "Not Found" }), {
-    status: 404,
-    headers: { "Content-Type": "application/json" },
-  });
-};
+  if (req.url === "/") {
+    res.writeHead(200, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ message: "Hello World!" }));
+  } else {
+    res.writeHead(404, { "Content-Type": "application/json" });
+    res.end(JSON.stringify({ error: "Not Found" }));
+  }
+});
 
 const port = 3000;
 console.log(`Server is running at http://localhost:${port}`);
-
-const server = new Server(handler);
 server.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
+

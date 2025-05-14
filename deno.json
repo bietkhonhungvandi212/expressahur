@@ -1,6 +1,12 @@
 {
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  },
   "tasks": {
-    "dev": "deno run --watch main.ts"
+    "start": "deno run --allow-net index.ts",
+    "debug": "deno run --allow-net --inspect-wait index.ts"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"
